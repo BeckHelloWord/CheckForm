@@ -28,14 +28,14 @@
             box-shadow: #999 0 0 5px;
         }
 
-        .sub-form .btn{
-            width:200px;
-            padding:10px 40px;
-            margin:20px 0;
-            font-size:16px;
-            cursor:pointer;
-            border:none;
-            color:#fff;
+        .sub-form .btn {
+            width: 200px;
+            padding: 10px 40px;
+            margin: 20px 0;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            color: #fff;
             background: #36B659;
         }
 
@@ -90,15 +90,15 @@
             $('.form-txt input,.form-txt textarea').on('blur', function () {
                 checkData($(this));
             });
-            //校验数据
+            //检验数据
             function checkData(dom) {
                 if (dom.val().length <= 0) {
-                    //为空
+                    //判断是否为空
                     dom.next('span').removeClass().addClass('error').html('必填项，不能为空!');
                     return false;
                 } else {
+                    //匹配正则，检验格式
                     var reg = new RegExp(dom.data().reg);
-
                     if (reg.test(dom.val())) {
                         //通过
                         dom.next('span').removeClass().addClass('pass').html('通过');
@@ -112,18 +112,22 @@
                 }
             }
 
-            $('.btn').on('click',function(){
+            //提交表单时检验
+            $('#form-data').on('submit', function () {
+                var flg;
                 $('.form-txt input,.form-txt textarea').each(function () {
-                    checkData($(this));
+                    if (!checkData($(this))) {
+                        flg = false;
+                    }
                 })
+                return flg;
             })
-
         })
     </script>
 </head>
 <body>
 <div class="sub-form">
-    <form id="form-data" action="index.html" method="post">
+    <form id="form-data" action="../babyWay/index.html" method="get">
         <div class="form-item ">
             <p>姓名：</p>
             <div class="form-txt clearfix">
@@ -135,7 +139,9 @@
         <div class="form-item ">
             <p>电话：</p>
             <div class="form-txt clearfix">
-                <input type="text" placeholder="电话" name="phone" id="phone" data-reg="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)" data-info='请输入正确的手机号'/>
+                <input type="text" placeholder="电话" name="phone" id="phone"
+                       data-reg="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)"
+                       data-info='请输入正确的手机号'/>
                 <span></span>
             </div>
         </div>
@@ -154,7 +160,7 @@
                 <span></span>
             </div>
         </div>
-        <input type="button" class="btn" value="提交"/>
+        <input type="submit" class="btn" name="submit-btn" id="submit-btn" value="提交"/>
     </form>
 </div>
 </body>
