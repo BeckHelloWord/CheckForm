@@ -1,167 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>index</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
+	<meta charset="UTF-8">
+	<title>index</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		
+		.clearfix:after,
+		.clearfix:before {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		
+		body {
+			font: 14px/1.5 '微软雅黑';
+			background: #F9FAFB;
+		}
+		
+		.sub-form {
+			width: 540px;
+			margin: 50px auto;
+			padding: 50px;
+			background: #fff;
+			box-shadow: #999 0 0 5px;
+		}
+		
+		.sub-form .btn {
+			width: 200px;
+			padding: 10px 40px;
+			margin: 20px 0;
+			font-size: 16px;
+			cursor: pointer;
+			border: none;
+			color: #fff;
+			background: #36B659;
+		}
+		
+		.sub-form .form-item p {
+			padding: 5px 0;
+		}
+		
+		.sub-form .form-item .form-txt input {
+			float: left;
+			width: 380px;
+			height: 20px;
+			padding: 5px 10px;
+			margin-bottom: 20px;
+			line-height: 30px;
+			border: 1px solid #E4E4E4;
+			border-radius: 2px;
+		}
+		
+		.sub-form .form-item .form-txt textarea {
+			float: left;
+			width: 380px;
+			height: 80px;
+			padding: 5px 10px;
+			border: 1px solid #E4E4E4;
+			resize: none;
+		}
+		
+		.sub-form .form-item .form-txt span {
+			float: left;
+			height: 20px;
+			margin-left: 10px;
+			padding: 5px 10px;
+			font-size: 12px;
+			color: #fff;
+			border-radius: 5px;
+			opacity: 0;
+			transition: all 1s ease 0s;
+		}
+		
+		.sub-form .form-item .form-txt span.pass {
+			background: #35B558;
+			opacity: 1;
+		}
+		
+		.sub-form .form-item .form-txt span.error {
+			background: #FF5C00;
+			opacity: 1;
+		}
+	</style>
+	<script src="//cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
+	<script>
+		$(function () {
 
-        .clearfix:after, .clearfix:before {
-            content: '';
-            display: block;
-            clear: both;
-        }
+			//绑定事件
+			$('.form-txt input,.form-txt textarea').on('blur', function () {
+				checkData($(this));
+			});
 
-        body {
-            font: 14px/1.5 '微软雅黑';
-            background: #F9FAFB;
-        }
 
-        .sub-form {
-            width: 540px;
-            margin: 50px auto;
-            padding: 50px;
-            background: #fff;
-            box-shadow: #999 0 0 5px;
-        }
+			//检验数据
+			function checkData(dom) {
+				if (dom.val().length <= 0) {
+					//判断是否为空
+					dom.next('span').removeClass().addClass('error').html('必填项，不能为空!');
+					return false;
+				} else {
+					//匹配正则，检验格式
+					var reg = new RegExp(dom.data().reg);
+					if (reg.test(dom.val())) {
+						//通过
+						dom.next('span').removeClass().addClass('pass').html('通过！');
+						return true;
+					} else {
+						//没有通过
+						var info = dom.data().info || '请输入正确的格式';
+						dom.next('span').removeClass().addClass('error').html(info);
+						return false;
+					}
+				}
+			};
 
-        .sub-form .btn {
-            width: 200px;
-            padding: 10px 40px;
-            margin: 20px 0;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            color: #fff;
-            background: #36B659;
-        }
 
-        .sub-form .form-item p {
-            padding: 5px 0;
-        }
-
-        .sub-form .form-item .form-txt input {
-            float: left;
-            width: 380px;
-            height: 20px;
-            padding: 5px 10px;
-            margin-bottom: 20px;
-            line-height: 30px;
-            border: 1px solid #E4E4E4;
-            border-radius: 2px;
-        }
-
-        .sub-form .form-item .form-txt textarea {
-            float: left;
-            width: 380px;
-            height: 80px;
-            padding: 5px 10px;
-            border: 1px solid #E4E4E4;
-        }
-
-        .sub-form .form-item .form-txt span {
-            float: left;
-            height: 20px;
-            margin-left: 10px;
-            padding: 5px 10px;
-            font-size: 12px;
-            color: #fff;
-            border-radius: 5px;
-            opacity: 0;
-            transition: all 1s ease 0s;
-        }
-
-        .sub-form .form-item .form-txt span.pass {
-            background: #35B558;
-            opacity: 1;
-        }
-
-        .sub-form .form-item .form-txt span.error {
-            background: #FF5C00;
-            opacity: 1;
-        }
-    </style>
-    <script src="//cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
-    <script>
-        $(function () {
-            $('.form-txt input,.form-txt textarea').on('blur', function () {
-                checkData($(this));
-            });
-            //检验数据
-            function checkData(dom) {
-                if (dom.val().length <= 0) {
-                    //判断是否为空
-                    dom.next('span').removeClass().addClass('error').html('必填项，不能为空!');
-                    return false;
-                } else {
-                    //匹配正则，检验格式
-                    var reg = new RegExp(dom.data().reg);
-                    if (reg.test(dom.val())) {
-                        //通过
-                        dom.next('span').removeClass().addClass('pass').html('通过');
-                        return true;
-                    } else {
-                        //没有通过
-                        var info = dom.data().info || '格式不正确';
-                        dom.next('span').removeClass().addClass('error').html(info);
-                        return false;
-                    }
-                }
-            }
-
-            //提交表单时检验
-            $('#form-data').on('submit', function () {
-                var flg;
-                $('.form-txt input,.form-txt textarea').each(function () {
-                    if (!checkData($(this))) {
-                        flg = false;
-                    }
-                })
-                return flg;
-            })
-        })
-    </script>
+			//提交表单时检验
+			$('#form-data').on('submit', function () {
+				var flg;
+				$('.form-txt input,.form-txt textarea').each(function () {
+					if (!checkData($(this))) {
+						flg = false;
+					}
+				})
+				return flg;
+			});
+		})
+	</script>
 </head>
+
 <body>
-<div class="sub-form">
-    <form id="form-data" action="../babyWay/index.html" method="get">
-        <div class="form-item ">
-            <p>姓名：</p>
-            <div class="form-txt clearfix">
-                <input type="text" placeholder="姓名" name="username" id="username" data-reg="^([\u4e00-\u9fa5]){2,7}$"
-                       data-info='请输入正确的姓名'/>
-                <span></span>
-            </div>
-        </div>
-        <div class="form-item ">
-            <p>电话：</p>
-            <div class="form-txt clearfix">
-                <input type="text" placeholder="电话" name="phone" id="phone"
-                       data-reg="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)"
-                       data-info='请输入正确的手机号'/>
-                <span></span>
-            </div>
-        </div>
-        <div class="form-item ">
-            <p>邮箱：</p>
-            <div class="form-txt clearfix">
-                <input type="text" placeholder="邮箱" name="email" id="email"
-                       data-reg="^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$" data-info='请输入正确的邮箱'/>
-                <span></span>
-            </div>
-        </div>
-        <div class="form-item ">
-            <p>内容：</p>
-            <div class="form-txt clearfix">
-                <textarea placeholder="内容" name="con" id="con" data-reg="" data-info='请输入正确的内容'></textarea>
-                <span></span>
-            </div>
-        </div>
-        <input type="submit" class="btn" name="submit-btn" id="submit-btn" value="提交"/>
-    </form>
-</div>
+	<div class="sub-form">
+		<form id="form-data" action="../babyWay/index.html" method="get">
+			<div class="form-item ">
+				<p>姓名：</p>
+				<div class="form-txt clearfix">
+					<input type="text" placeholder="姓名" name="username" id="username" data-reg="^([\u4e00-\u9fa5]){2,7}$" data-info='请输入正确的姓名' />
+					<span></span>
+				</div>
+			</div>
+			<div class="form-item ">
+				<p>电话：</p>
+				<div class="form-txt clearfix">
+					<input type="text" placeholder="电话" name="phone" id="phone" data-reg="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)" data-info='请输入正确的手机号' />
+					<span></span>
+				</div>
+			</div>
+			<div class="form-item ">
+				<p>邮箱：</p>
+				<div class="form-txt clearfix">
+					<input type="text" placeholder="邮箱" name="email" id="email" data-reg="^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$" data-info='请输入正确的邮箱' />
+					<span></span>
+				</div>
+			</div>
+			<div class="form-item ">
+				<p>内容：</p>
+				<div class="form-txt clearfix">
+					<textarea placeholder="内容" name="con" id="con" data-reg="" data-info='请输入正确的内容'></textarea>
+					<span></span>
+				</div>
+			</div>
+			<input type="submit" class="btn" name="submit-btn" id="submit-btn" value="提交" />
+		</form>
+	</div>
 </body>
+
 </html>
